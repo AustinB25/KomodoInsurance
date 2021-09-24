@@ -1,0 +1,6 @@
+C:\Users\kpak2\source\repos\KomodoInsuranceDeveloperTeamManagementApplication\Developers\obj\Debug\Developers.csproj.AssemblyReference.cache
+C:\Users\kpak2\source\repos\KomodoInsuranceDeveloperTeamManagementApplication\Developers\obj\Debug\Developers.csproj.CoreCompileInputs.cache
+C:\Users\kpak2\source\repos\KomodoInsuranceDeveloperTeamManagementApplication\Developers\bin\Debug\Developers.dll
+C:\Users\kpak2\source\repos\KomodoInsuranceDeveloperTeamManagementApplication\Developers\bin\Debug\Developers.pdb
+C:\Users\kpak2\source\repos\KomodoInsuranceDeveloperTeamManagementApplication\Developers\obj\Debug\Developers.dll
+C:\Users\kpak2\source\repos\KomodoInsuranceDeveloperTeamManagementApplication\Developers\obj\Debug\Developers.pdb
