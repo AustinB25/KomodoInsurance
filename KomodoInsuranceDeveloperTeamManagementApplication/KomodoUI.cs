@@ -10,8 +10,8 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
 {
     public class KomodoUI
     {
-        private DevRepo _devrepo = new DevRepo();        
-        private DevTeamRepo _devTeamRepo = new DevTeamRepo();        
+        private DevRepo _devrepo = new DevRepo();
+        private DevTeamRepo _devTeamRepo = new DevTeamRepo();
         public void Run()
         {
             SeedData();
@@ -43,7 +43,7 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                         Console.WriteLine("Here's a list of all of your developers with PluralSite Access");
                         foreach (Developer dev in _devrepo._developers)
                         {
-                            if(dev.HasPluralSightAccess == true)
+                            if (dev.HasPluralSightAccess == true)
                             {
                                 Console.WriteLine($"{dev.FullName}");
                             }
@@ -55,8 +55,6 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                         PressAnyKey();
                         isRunning = false;
                         break;
-
-
                     default:
                         IntSwitchDefault();
                         break;
@@ -76,20 +74,20 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
             int devInput = int.Parse(Console.ReadLine());
             switch (devInput)
             {
-                case 1:
+                case 1://1. Create a new developer
                     Console.Clear();
                     Developer createdDev = CreateDeveloper();
-                    _devrepo.CreateDeveloper(createdDev);
-                    
+                    _devrepo.CreateDeveloperRepo(createdDev);
+
                     Console.WriteLine($"{createdDev.FirstName} {createdDev.LastName} was added!");
-                    PressAnyKey();                      
+                    PressAnyKey();
                     break;
-                case 2:
+                case 2://2. See all of the developers
                     Console.Clear();
                     DisplayAllDevelopers();
                     PressAnyKey();
                     break;
-                case 3:
+                case 3://3. Find a specific developer
                     Console.Clear();
                     DisplayAllDevelopers();
                     Console.WriteLine("Please enter the ID number of the developers you are looking for:\n");
@@ -101,16 +99,24 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                                       + $"Do they have PluralSite Access: {viewDev.HasPluralSightAccess}");
                     PressAnyKey();
                     break;
-                case 4:
+                case 4://4. Update a developer's information
                     DisplayAllDevelopers();
                     Console.WriteLine("Which developer would you like to update?\n" +
                         "Please enter their ID number.");
                     int exsistingDev = int.Parse(Console.ReadLine());
-                    Developer updatedDev = CreateDeveloper();                    
+                    Developer updatedDev = CreateDeveloper();
                     _devrepo.UpdateDeveloper(exsistingDev, updatedDev);
+                    if (_devrepo.UpdateDeveloper(exsistingDev, updatedDev) == true)
+                    {
+                        Console.WriteLine($"{updatedDev.FirstName} was updated!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"{updatedDev.FirstName} was updated!");
+                    }
                     PressAnyKey();
                     break;
-                case 5:
+                case 5: //5. Remove a developer 
                     DisplayAllDevelopers();
                     Console.WriteLine("Which developer would you like to remove?\n" +
                         "Please enter their ID number.");
@@ -119,7 +125,7 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                     PressAnyKey();
                     break;
                 case 6:
-                    GoBack();              
+                    GoBack();
                     break;
                 default:
                     IntSwitchDefault();
@@ -130,26 +136,23 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
         {
             Console.Clear();
             Console.WriteLine("What would you like to do?\n"
-                              + "1. Create a new team of developers\n"
-                              + "2. View the current teams\n"
-                              + "3. View the members of a team\n"
-                              + "4. Add a developer to a team\n"
-                              + "5. Remove a developer from a team\n"
-                              + "6. Update a teams information\n"
-                              + "7. Remove a team \n"
-                              + "8. Go back to the main menu");
+                              + "1. Create a new team of developers             5. Remove a developer from a team\n"
+                              + "2. View the current teams                      6. Update a teams information\n"
+                              + "3. View the members of a team                  7. Remove a team \n"
+                              + "4. Add a developer to a team                   8. Go back to the main menu\n"
+                              );
             int userInput = int.Parse(Console.ReadLine());
             switch (userInput)
             {
-                case 1:
-                    CreateDeveloperTeam();
+                case 1://1.Create a new team of developers
+                    CreateDeveloperTeam(); 
                     break;
-                case 2:
+                case 2: // 2.View the current teams
                     Console.Clear();
                     DisplayAllTeams();
                     PressAnyKey();
                     break;
-                case 3:
+                case 3: //3. View the members of a team 
                     DisplayAllTeams();
                     Console.WriteLine("Please enter the Team Id of which you would like to see the team?");
                     int teamPick = int.Parse(Console.ReadLine());
@@ -158,11 +161,11 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                     Console.WriteLine($"Team: {devTeam.TeamName}\n");
                     foreach (Developer dev in devTeam.Team)
                     {
-                        Console.WriteLine($"Team Member: {dev.FullName}\n");                           
+                        Console.WriteLine($"Team Member: {dev.FullName}\n");
                     }
                     PressAnyKey();
                     break;
-                case 4:
+                case 4: //4. Add a developer to a team
                     DisplayAllTeams();
                     Console.WriteLine("\n" +
                         "What team would you like to add a member to?\n" +
@@ -170,10 +173,10 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                     int addPick = int.Parse(Console.ReadLine());
                     DeveloperTeams addToTeam = _devTeamRepo.FindDevTeamById(addPick);
                     Developer addDev = AddOrRemoveDeveloper();
-                    addToTeam.Team.Add(addDev);                    
+                    addToTeam.Team.Add(addDev);
                     PressAnyKey();
                     break;
-                case 5:
+                case 5://5. Remove a developer from a team
                     DisplayAllTeams();
                     Console.WriteLine("\n" +
                         "What team would you like to remove a member from?\n" +
@@ -182,24 +185,46 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                     DeveloperTeams removeFromTeam = _devTeamRepo.FindDevTeamById(removePick);
                     Developer removeDev = AddOrRemoveDeveloper();
                     removeFromTeam.Team.Remove(removeDev);
+                    if (removeFromTeam.Team.Remove(removeDev) == true)
+                    {
+                        Console.WriteLine("The team member was removed!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("The team member was not removed!");
+                    }
                     PressAnyKey();
                     break;
-                case 6:
+                case 6://6. Update a teams information
                     DisplayAllTeams();
                     Console.WriteLine("\n" +
                         "What team would you like to update?\n" +
                         "Please enter the Team Id.");
                     int updatePick = int.Parse(Console.ReadLine());
-                    DeveloperTeams updateThisTeam = _devTeamRepo.FindDevTeamById(updatePick);
-                    
+                    DeveloperTeams newTeam = UpdateATeam();
+                    _devTeamRepo.UpdateATeamRepo(updatePick, newTeam);
+                    if (_devTeamRepo.UpdateATeamRepo(updatePick, newTeam))
+                    {
+                        Console.WriteLine($"The team {newTeam.TeamName} was updated!");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"The team {newTeam.TeamName} was not updated!");
+                    }
                     break;
-                case 7:
+                case 7://7. Remove a team
                     DisplayAllTeams();
                     Console.WriteLine("Please enter the team id of the team you want to remove.");
                     int removeDevTeam = int.Parse(Console.ReadLine());
                     _devTeamRepo.DeleteATeam(removeDevTeam);
-                    DeveloperTeams newTeam = CreateDeveloperTeam();
-                    _devTeamRepo.UpdateATeam(removeDevTeam, newTeam);
+                    if (_devTeamRepo.DeleteATeam(removeDevTeam) == false)
+                    {
+                        Console.WriteLine("The team was not deleted!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("The team was deleted!");
+                    }
                     PressAnyKey();
                     break;
                 case 8:
@@ -210,14 +235,14 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                     break;
             }
         }
-        private DeveloperTeams CreateDeveloperTeam()
+        private DeveloperTeams UpdateATeam()
         {
             Console.Clear();
             bool addingDevsToList = true;
             List<Developer> newDevTeamList = new List<Developer>();
-            DeveloperTeams newDevTeam = new DeveloperTeams();
+            DeveloperTeams updateDevTeam = new DeveloperTeams();
             Console.WriteLine("What would you like to name this team?");
-            newDevTeam.TeamName = Console.ReadLine();
+            updateDevTeam.TeamName = Console.ReadLine();
             do
             {
                 Console.WriteLine("Please enter the ID number of the developer you would like to add to the team.");
@@ -238,8 +263,47 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                         break;
                 }
             } while (addingDevsToList);
-            newDevTeam.Team = newDevTeamList;
+            updateDevTeam.Team = newDevTeamList;
+            return updateDevTeam;
+        }
+        private DeveloperTeams CreateDeveloperTeam()
+        {
+            Console.Clear();
+            bool addingDevsToList = true;
+            List<Developer> updatedTeamDevList = new List<Developer>();
+            DeveloperTeams newDevTeam = new DeveloperTeams();
+            Console.WriteLine("What would you like to name this team?");
+            newDevTeam.TeamName = Console.ReadLine();
+            do
+            {
+                Console.WriteLine("Please enter the ID number of the developer you would like to add to the team.");
+                Developer addingDev = AddOrRemoveDeveloper();
+                updatedTeamDevList.Add(addingDev);
+                Console.WriteLine("Would you like to add another team member? (y/n)");
+                string addAnother = Console.ReadLine();
+                switch (addAnother)
+                {
+                    case "y":
+                        addingDevsToList = true;
+                        break;
+                    case "n":
+                        addingDevsToList = false;
+                        break;
+                    default:
+                        addingDevsToList = false;
+                        break;
+                }
+            } while (addingDevsToList);
+            newDevTeam.Team = updatedTeamDevList;
             _devTeamRepo.CreateATeam(newDevTeam);
+            if (_devTeamRepo.CreateATeam(newDevTeam))
+            {
+                Console.WriteLine($"The team {newDevTeam.TeamName} was created!");
+            }
+            else
+            {
+                Console.WriteLine($"The team {newDevTeam.TeamName} was not created!");
+            }
             return newDevTeam;
         }
         private Developer CreateDeveloper()
@@ -252,7 +316,7 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
             string lastName = Console.ReadLine();
             newDev.LastName = lastName;
             Console.WriteLine("Do you want them to have PluralSite Access? (y/n)");
-            string access = Console.ReadLine().ToLower() ;
+            string access = Console.ReadLine().ToLower();
             switch (access)
             {
                 case "y":
@@ -264,7 +328,7 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
                 default:
                     newDev.HasPluralSightAccess = false;
                     break;
-            }            
+            }
             return newDev;
         }
         private void IntSwitchDefault()
@@ -287,7 +351,7 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
         private void DisplayAllTeams()
         {
             Console.Clear();
-            foreach(DeveloperTeams devTeam in _devTeamRepo._devTeams)
+            foreach (DeveloperTeams devTeam in _devTeamRepo._devTeams)
             {
                 Console.WriteLine($"Team ID: {devTeam.TeamId}\n" +
                     $"Name: {devTeam.TeamName}\n" +
@@ -305,9 +369,9 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
             var dev1 = new Developer("Jon", " Crowe", false);
             var dev2 = new Developer("Jeremy", " Aldrige", true);
             var dev3 = new Developer("Austin", " Bridgewater", true);
-            _devrepo.CreateDeveloper(dev1);
-            _devrepo.CreateDeveloper(dev2);
-            _devrepo.CreateDeveloper(dev3);
+            _devrepo.CreateDeveloperRepo(dev1);
+            _devrepo.CreateDeveloperRepo(dev2);
+            _devrepo.CreateDeveloperRepo(dev3);
             List<Developer> devTeamList1 = new List<Developer>();
             devTeamList1.Add(dev1);
             devTeamList1.Add(dev2);
@@ -317,8 +381,9 @@ namespace KomodoInsuranceDeveloperTeamManagementApplication
         }
         private Developer AddOrRemoveDeveloper()
         {
-            Console.WriteLine("Who would you like to add to this team?");
             DisplayAllDevelopers();
+            Console.WriteLine("\nWho would you like to add/remove from this team?\n " +
+                "Please enter the team ID of the team member you would like to add.");
             int dev = int.Parse(Console.ReadLine());
             Developer teamDev = _devrepo.GetDevById(dev);
             return teamDev;

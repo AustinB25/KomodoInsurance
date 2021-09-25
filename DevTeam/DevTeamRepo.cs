@@ -39,7 +39,7 @@ namespace DevTeam
             return null;
         }
         //Update a specific Team
-        public bool UpdateATeam(int id, DeveloperTeams newDevTeam)
+        public bool UpdateATeamRepo(int id, DeveloperTeams newDevTeam)
         {
             DeveloperTeams exsistingTeam = this.FindDevTeamById(id);
             if (exsistingTeam == null)
@@ -59,7 +59,7 @@ namespace DevTeam
             }
             int initialDevTeamCount = _devTeams.Count;
             _devTeams.Remove(exsistingTeam);
-            return initialDevTeamCount > _devTeams.Count;
+            return true;
         }
     }
 }

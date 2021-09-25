@@ -13,20 +13,20 @@ namespace RepoTests
     public void Arrange()
         {
             var devSeed = new Developer("Jay", "Culter", true);
-            _devrepo.CreateDeveloper(devSeed);            
+            _devrepo.CreateDeveloperRepo(devSeed);            
          }
         [TestMethod]
         public void CreateDeveloper_DeveloperIsNull_ReturnFalse()
         {
             Developer testDev = null;         
-            bool result = _devrepo.CreateDeveloper(testDev);           
+            bool result = _devrepo.CreateDeveloperRepo(testDev);           
             Assert.IsFalse(result);
         }
         [TestMethod]
         public void CreateDeveloper_DeveloperIsNotNull_ReturnTrue()
         {
             var dev1 = new Developer("Jay", "Cutler", true);
-            bool result = _devrepo.CreateDeveloper(dev1);
+            bool result = _devrepo.CreateDeveloperRepo(dev1);
             Assert.IsTrue(result);
         }
         [TestMethod]
